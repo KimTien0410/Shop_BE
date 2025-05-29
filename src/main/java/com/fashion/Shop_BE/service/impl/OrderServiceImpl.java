@@ -70,7 +70,6 @@ public class OrderServiceImpl implements OrderService {
                 .deliveryMethodName(order.getDeliveryMethod().getDeliveryMethodName())
                 .shippingFee(order.getDeliveryMethod().getDeliveryFee())
                 .voucherCode(voucherCode)
-                .discountPrice(order.getVoucher() != null ? order.getVoucher().getDiscountValue() : 0)
                 .totalPrice(order.getOrderTotalAmount())
                 .finalPrice(order.getOrderTotalAmount() - (order.getVoucher() != null ? order.getVoucher().getDiscountValue() : 0))
                 .orderDetails(orderDetailResponses)
@@ -162,14 +161,19 @@ public class OrderServiceImpl implements OrderService {
         orderDetailRepository.saveAll(orderDetails);
 
         if (voucher != null) {
+            double discountedPrice =0;
             if (voucher.getDiscountType().equals(DiscountType.PERCENTAGE)) {
+                 discountedPrice=totalPrice * (voucher.getDiscountValue() / 100);
                 totalPrice = totalPrice * (1 - voucher.getDiscountValue() / 100);
             } else if (voucher.getDiscountType().equals(DiscountType.FIXED)) {
+                discountedPrice = voucher.getDiscountValue();
                 totalPrice = Math.max(0, totalPrice - voucher.getDiscountValue());
             }
+            order.setOrderDiscount(discountedPrice);
             voucher.setQuantity(voucher.getQuantity() - 1);
             voucherRepository.save(voucher);
         }
+
         order.setOrderTotalAmount(totalPrice);
         order.setOrderDetails(orderDetails);
 

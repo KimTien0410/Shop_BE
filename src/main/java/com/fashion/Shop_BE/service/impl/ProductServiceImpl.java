@@ -37,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
     private final SlugService slugService;
     private final OrderDetailRepository orderDetailRepository;
     private final CloudinaryService cloudinaryService;
-
+//    private final ReviewService reviewService;
     @Transactional
     @Override
     public ProductResponse addProduct(RequestProduct requestProduct, List<RequestProductVariant> requestProductVariants, List<MultipartFile> images) {
@@ -265,11 +265,19 @@ public class ProductServiceImpl implements ProductService {
         Product product=productRepository.findById(productId).orElseThrow(
                 () -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)
         );
-        List<ProductResource> a = product.getProductResources().stream().filter(
-                productResource ->
-            productResource.isPrimary()).toList();
-        a.get(0);
-        return productMapper.productToProductResponse(product);
+//        List<ProductResource> a = product.getProductResources().stream().filter(
+//                productResource ->
+//            productResource.isPrimary()).toList();
+//        a.get(0);
+
+        List<Review> reviews=product.getReviews();
+        double averageRating = reviews.stream()
+                .mapToDouble(Review::getReviewRating)
+                .average()
+                .orElse(0.0);
+        ProductResponse productResponse=productMapper.productToProductResponse(product);
+        productResponse.setAverageRating(averageRating);
+        return productResponse;
     }
 
     @Override
@@ -387,7 +395,7 @@ public class ProductServiceImpl implements ProductService {
                     .map(ProductResource::getResourceUrl)
                     .findFirst()
                     .orElse(null);
-
+//            double averageRating = reviewService.getAverageRatingByProductId(product.getProductId());
             return new ProductItemResponse(
                     product.getProductId(),
                     product.getProductName(),
@@ -413,5 +421,11 @@ public class ProductServiceImpl implements ProductService {
         }
         return products.map(productMapper::productToProductResponse);
 
+    }
+
+    @Override
+    public Product getProductById(Long productId) {
+       return productRepository.findById(productId)
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
     }
 }

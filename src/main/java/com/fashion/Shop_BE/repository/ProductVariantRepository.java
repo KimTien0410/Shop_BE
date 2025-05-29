@@ -35,6 +35,7 @@ public interface ProductVariantRepository extends JpaRepository<ProductVariant, 
         pr.resourceUrl,
         p.category.categoryId,
         p.brand.brandId
+        
     )
     FROM ProductVariant pv
     JOIN pv.product p

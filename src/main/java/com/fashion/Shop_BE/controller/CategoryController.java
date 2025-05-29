@@ -93,7 +93,7 @@ public class CategoryController {
     @GetMapping("/admin/getAll")
     @Operation(summary = "Lấy danh sách danh mục cho admin")
     public ApiResponse<Page<CategoryResponse>> getAllByAdmin(
-            @RequestParam(required = false) String search,
+            @RequestParam(required = false,defaultValue = "") String search,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false,defaultValue = "categoryId") String sortBy,

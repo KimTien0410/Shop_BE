@@ -36,4 +36,5 @@ public interface ProductService {
 
     public Page<ProductResponse> getAllProductsByAdmin(String search,int page, int size, String sortBy, String sortDirection);
 
+    public Product getProductById(Long productId);
 }

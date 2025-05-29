@@ -90,6 +90,9 @@ public class Product {
     @JsonIgnore
     private Category category;
 
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL,orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Review> reviews;
+
 
     @PrePersist
     protected void onCreate() {

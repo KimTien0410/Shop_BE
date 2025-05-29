@@ -33,7 +33,7 @@ public class SecurityConfig {
     private final String[] PUBLIC_GET_URL = {
             "/auth/verify","/brands","/brands/**","/products","/products/**","/categories","/categories/**",
             "variants/**","variants","payment-methods","payment-methods/**","delivery-methods","delivery-methods/**",
-            "vouchers","vouchers/**"
+            "vouchers","vouchers/**","reviews","reviews/**"
     };
 
 

@@ -28,6 +28,7 @@ public class ProductResponse {
     private BrandResponse brand;
     private CategoryResponse category;
     private Set<ProductResourceResponse> productResources ;
+    private double averageRating;
 
     private Set<ProductVariantResponse> productVariants ;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

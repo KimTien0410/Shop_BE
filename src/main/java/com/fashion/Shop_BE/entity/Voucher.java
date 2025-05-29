@@ -49,7 +49,6 @@ public class Voucher {
 
     @Column(name="is_active",nullable=false)
     private boolean isActive=true;
-
     @Column(name="deleted_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedAt;

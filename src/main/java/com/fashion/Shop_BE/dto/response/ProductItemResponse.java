@@ -16,4 +16,5 @@ public class ProductItemResponse {
     private String thumbnail;
     private Long categoryId;
     private Long brandId;
+//    private double averageRating;
 }

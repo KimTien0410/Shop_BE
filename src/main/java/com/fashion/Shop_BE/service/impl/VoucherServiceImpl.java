@@ -23,7 +23,9 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class VoucherServiceImpl implements VoucherService {
+public class
+
+VoucherServiceImpl implements VoucherService {
     private final VoucherRepository voucherRepository;
     private final VoucherUserRepository voucherUserRepository;
     private final VoucherMapper voucherMapper;

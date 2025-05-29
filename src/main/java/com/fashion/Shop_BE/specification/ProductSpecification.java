@@ -22,7 +22,9 @@ public class ProductSpecification {
             // Search theo tên
             if (filter.getSearch() != null && !filter.getSearch().isBlank()) {
                 predicates.add(cb.like(cb.lower(root.get("productName")), "%" + filter.getSearch().toLowerCase() + "%"));
+                predicates.add(cb.like(cb.lower(root.get("productDescription")), "%" + filter.getSearch().toLowerCase() + "%"));
             }
+
 
             // Filter category
             if (filter.getCategoryId() != null) {
@@ -67,7 +69,8 @@ public class ProductSpecification {
                 if (filter.getSize() != null && !filter.getSize().isEmpty()) {
                     predicates.add(variantJoin.get("size").in(filter.getSize()));
                 }
-
+                predicates.add(root.get("deletedAt").isNull()); // Chỉ lấy sản phẩm chưa xóa
+//                predicates.add(root.get("isDeleted").isFalse()); // Chỉ lấy sản phẩm chưa xóa
                 query.distinct(true); // Tránh duplicate khi join
             }
 

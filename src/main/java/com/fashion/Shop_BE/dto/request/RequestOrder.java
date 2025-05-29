@@ -19,6 +19,7 @@ public class RequestOrder {
     @NotNull(message="DELIVERY_METHOD_REQUIRED")
     private Long deliveryMethodId;
     private Long voucherId;
+//
 //    private String voucherCode;
     @NotNull(message="ORDER_DETAIL_REQUIRED")
     private List<RequestOrderDetail> orderDetails;

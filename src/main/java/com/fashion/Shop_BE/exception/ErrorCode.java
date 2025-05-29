@@ -110,6 +110,8 @@ public enum ErrorCode {
 
     PAYMENT_NOT_FOUND(404,"Không tìm thấy thông tin thanh toán",HttpStatus.NOT_FOUND),
 
+    REVIEW_NOT_FOUND(404,"Không tìm thấy đánh giá",HttpStatus.NOT_FOUND),
+
     ;
     private int code;
     private String message;
