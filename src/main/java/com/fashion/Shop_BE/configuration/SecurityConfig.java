@@ -61,7 +61,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("http://localhost:3000")); // Cho phép FE
+        config.setAllowedOriginPatterns(List.of("http://localhost:3000","https://shopfashionkt.netlify.app")); // Cho phép FE
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"));
         config.setAllowedHeaders(List.of("*")); // Có thể cụ thể hơn nếu cần
         config.setAllowCredentials(true);
