@@ -18,7 +18,7 @@ public class PaymentController {
     @PostMapping("/confirm-webhook")
     public ApiResponse<?> confirmWebhook(@RequestBody ObjectNode webhookBody) {
         System.out.println(webhookBody);
-       // payOSService.verifyWebhook(webhookBody);
+        payOSService.verifyWebhook(webhookBody);
         return ApiResponse.builder()
                 .code(200)
                 .message("Xác thực webhook thành công")
