@@ -11,12 +11,8 @@ import com.fashion.Shop_BE.enums.PaymentStatus;
 import com.fashion.Shop_BE.exception.AppException;
 import com.fashion.Shop_BE.exception.ErrorCode;
 import com.fashion.Shop_BE.repository.*;
-import com.fashion.Shop_BE.service.OrderService;
+import com.fashion.Shop_BE.service.*;
 import com.fashion.Shop_BE.service.impl.payment.PaymentFactory;
-import com.fashion.Shop_BE.service.PaymentService;
-import com.fashion.Shop_BE.service.ProductService;
-import com.fashion.Shop_BE.service.UserService;
-import com.fashion.Shop_BE.service.VoucherService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -47,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
     private final UserService userService;
     private final PaymentFactory paymentFactory;
     private final UpdateProductQuantity productQuantity;
-
+    private final EmailService emailService;
     public OrderResponse toOrderResponse(Order order) {
         ReceiverAddress receiverAddress= order.getReceiverAddress();
         String fullAddress = String.format("%s, %s, %s, %s",
@@ -186,6 +182,10 @@ public class OrderServiceImpl implements OrderService {
         payment.setPaymentAt(new Date());
         paymentRepository.save(payment);
 
+        String subject = "Order Confirmation";
+        String body = String.format("Dear %s,\n\nYour order #%d has been placed successfully.\n\nThank you for shopping with us!",
+                user.getEmail(), order.getOrderId());
+        emailService.sendEmail(user.getEmail(), subject, body);
         // Process payment
         PaymentService paymentService = paymentFactory.getPaymentService(paymentMethod.getPaymentMethodId().intValue());
         String handlePayment=paymentService.processPayment(order.getOrderId(),order.getOrderTotalAmount().intValue());
@@ -264,6 +264,11 @@ public class OrderServiceImpl implements OrderService {
         } else {
             updateOrderStatus(order);
         }
+        User user =order.getUser();
+        String subject = "Order Confirmation";
+        String body = String.format("Dear %s,\n\nYour order #%d has been placed successfully.\n\nThank you for shopping with us!",
+                user.getEmail(), order.getOrderId());
+        emailService.sendEmail(user.getEmail(), subject, body);
         orderRepository.save(order);
 
     }

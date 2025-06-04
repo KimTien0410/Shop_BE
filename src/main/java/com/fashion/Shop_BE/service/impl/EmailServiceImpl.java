@@ -46,4 +46,19 @@ public class EmailServiceImpl implements EmailService {
             throw new AppException(ErrorCode.SEND_VERIFY_EMAIL_FAIL);
         }
     }
+    @Override
+    public void sendEmail(String recipientEmail, String subject, String body) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, StandardCharsets.UTF_8.name());
+
+            helper.setTo(recipientEmail);
+            helper.setSubject(subject);
+            helper.setText(body, false); // Plain text email
+
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            throw new AppException(ErrorCode.SEND_EMAIL_FAIL);
+        }
+    }
 }
